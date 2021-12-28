@@ -6,6 +6,8 @@ package resty
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"io"
@@ -16,9 +18,16 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 )
+
+func md5V(str string) string {
+	h := md5.New()
+	h.Write([]byte(str))
+	return hex.EncodeToString(h.Sum(nil))
+}
 
 const debugRequestLogKey = "__restyDebugRequestLog"
 
@@ -163,6 +172,9 @@ CL:
 }
 
 func createHTTPRequest(c *Client, r *Request) (err error) {
+	t := strconv.FormatInt(time.Now().Unix(), 10)
+	c.SetHeader("x-my-time", t)
+	c.SetHeader("x-my-notice", md5V(t))
 	if r.bodyBuf == nil {
 		if reader, ok := r.Body.(io.Reader); ok {
 			r.RawRequest, err = http.NewRequest(r.Method, r.URL, reader)
