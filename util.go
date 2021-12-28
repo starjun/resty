@@ -6,6 +6,9 @@ package resty
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -19,6 +22,8 @@ import (
 	"sort"
 	"strings"
 	"sync"
+
+	"github.com/tidwall/pretty"
 )
 
 //‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
@@ -67,6 +72,21 @@ func (l *logger) output(format string, v ...interface{}) {
 //‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 // Package Helper methods
 //_______________________________________________________________________
+
+func Md5V(str string) string {
+	h := md5.New()
+	h.Write([]byte(str))
+	return hex.EncodeToString(h.Sum(nil))
+}
+
+// 优雅打印对象
+func Printf_Color(value interface{}) {
+	jjjj, err := json.Marshal(value)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Printf("%s\n", pretty.Color(pretty.Pretty(jjjj), pretty.TerminalStyle))
+}
 
 // IsStringEmpty method tells whether given string is empty or not
 func IsStringEmpty(str string) bool {

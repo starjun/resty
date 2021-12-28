@@ -6,8 +6,6 @@ package resty
 
 import (
 	"bytes"
-	"crypto/md5"
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"io"
@@ -18,16 +16,9 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
-	"strconv"
 	"strings"
 	"time"
 )
-
-func md5V(str string) string {
-	h := md5.New()
-	h.Write([]byte(str))
-	return hex.EncodeToString(h.Sum(nil))
-}
 
 const debugRequestLogKey = "__restyDebugRequestLog"
 
@@ -130,9 +121,6 @@ func parseRequestHeader(c *Client, r *Request) error {
 	}
 
 	r.Header = hdr
-	t := strconv.FormatInt(time.Now().Unix(), 10)
-	r.SetHeader("x-my-time", t)
-	c.SetHeader("x-my-notice", md5V(t))
 	return nil
 }
 
