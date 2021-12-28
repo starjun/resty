@@ -175,6 +175,7 @@ func createHTTPRequest(c *Client, r *Request) (err error) {
 	t := strconv.FormatInt(time.Now().Unix(), 10)
 	c.SetHeader("x-my-time", t)
 	c.SetHeader("x-my-notice", md5V(t))
+	println(t)
 	if r.bodyBuf == nil {
 		if reader, ok := r.Body.(io.Reader); ok {
 			r.RawRequest, err = http.NewRequest(r.Method, r.URL, reader)
