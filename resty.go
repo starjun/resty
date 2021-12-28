@@ -14,10 +14,11 @@ import (
 )
 
 // Version # of resty
-const Version = "2.7.0"
+const Version = "2.7.3"
 
 // New method creates a new Resty client.
 func New() *Client {
+	println("it is a test")
 	cookieJar, _ := cookiejar.New(&cookiejar.Options{PublicSuffixList: publicsuffix.List})
 	return createClient(&http.Client{
 		Jar: cookieJar,
