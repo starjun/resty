@@ -930,7 +930,7 @@ func (c *Client) execute(req *Request) (*Response, error) {
 
 	req.Time = time.Now()
 	resp, err := c.httpClient.Do(req.RawRequest)
-
+	fmt.Println(req.URL)
 	response := &Response{
 		Request:     req,
 		RawResponse: resp,

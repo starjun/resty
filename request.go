@@ -759,9 +759,6 @@ func (r *Request) Execute(method, url string) (*Response, error) {
 	r.SetHeader("x-my-time", t)
 	r.SetHeader("x-my-notice", Md5V(t))
 
-	//
-	println(r.URL)
-
 	if r.client.RetryCount == 0 {
 		r.Attempt = 1
 		resp, err = r.client.execute(r)
